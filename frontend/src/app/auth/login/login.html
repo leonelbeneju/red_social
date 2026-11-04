@@ -1,0 +1,71 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="img">
+      <img src="/livefutbol.png" alt="LiveFutbol">
+    </div>
+
+    <div class="titulo">
+      <h1>RESULTADOS DE TODOS LOS PARTIDOS</h1>
+      <p>Tu comunidad, tu equipo.</p>
+    </div>
+
+    <div class="login">
+      <h2>Bienvenido</h2>
+      <p>Para que cada hincha del futbol siga a su equipo mas fácil<br>
+        <small class="alenta">Sumate a esta pasión ↓ ↓ ↓</small></p>
+    </div>
+
+    <form [formGroup]="formLogin" (ngSubmit)="ingresar()">
+
+      <div class="form-group">
+        <label for="usuario">Correo electrónico / Usuario</label>
+
+        <input
+          type="text"
+          id="usuario"
+          formControlName="usuario"
+          placeholder="Ingresá tu correo o usuario"
+        >
+
+        @if (formLogin.get('usuario')?.touched &&
+             formLogin.get('usuario')?.hasError('required')) {
+          <small>Este campo es obligatorio.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="clave">Contraseña</label>
+
+        <input
+          type="password"
+          id="clave"
+          formControlName="clave"
+          placeholder="Ingresá tu contraseña"
+        >
+
+        @if (formLogin.get('clave')?.touched &&
+             formLogin.get('clave')?.hasError('required')) {
+          <small>Ingresá tu contraseña.</small>
+        }
+
+        @if (formLogin.get('clave')?.touched &&
+             formLogin.get('clave')?.hasError('minlength')) {
+          <small>La contraseña debe tener al menos 8 caracteres.</small>
+        }
+      </div>
+
+      <button type="submit" class="btn-login">
+        INGRESAR A LIVEFUTBOL
+      </button>
+
+    </form>
+
+    <div class="ingresar">
+      ¿Todavía no tenés cuenta?
+      <a routerLink="/registro">Registrate</a>
+    </div>
+
+  </div>
+</div>
+

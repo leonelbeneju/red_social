@@ -1,0 +1,12 @@
+
+h2{
+    margin: 50%;
+}
+.pub {
+    color: rgba(16, 0, 0, 0.933);
+    font-family: 'Gill Sans MT';
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    margin:50px 87vh;
+}

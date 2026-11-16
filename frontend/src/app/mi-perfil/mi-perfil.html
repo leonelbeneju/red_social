@@ -1,1 +1,60 @@
-<p>mi-perfil works!</p>
+<div class="perfil-container">
+
+  <h1>Mi perfil</h1>
+
+  @if (cargando) {
+    <p>Cargando perfil...</p>
+  }
+
+  @if (mensajeError) {
+    <p class="error">{{ mensajeError }}</p>
+  }
+
+  @if (perfil) {
+    <div class="perfil-card">
+
+      <h2>{{ perfil.usuario.nombre }} {{ perfil.usuario.apellido }}</h2>
+
+      <p><strong>Usuario:</strong> {{ perfil.usuario.usuario }}</p>
+
+      <p><strong>Correo:</strong> {{ perfil.usuario.correo }}</p>
+
+      <p><strong>Fecha de nacimiento:</strong>
+        {{ perfil.usuario.fechaNacimiento | date:'dd/MM/yyyy' }}
+      </p>
+
+      <p><strong>Descripción:</strong>
+        {{ perfil.usuario.descripcion || 'Sin descripción' }}
+      </p>
+
+      <p><strong>Perfil:</strong> {{ perfil.usuario.perfil }}</p>
+
+    </div>
+
+    <h2>Mis últimas publicaciones</h2>
+
+    @if (perfil.ultimasPublicaciones.length > 0) {
+      @for (publicacion of perfil.ultimasPublicaciones; track publicacion._id) {
+        <div class="publicacion-card">
+          <h3>{{ publicacion.titulo }}</h3>
+          <p>{{ publicacion.mensaje }}</p>
+        </div>
+      }
+    } @else {
+      <p>Todavía no tenés publicaciones.</p>
+    }
+
+    <h2>Mis comentarios</h2>
+
+    @if (perfil.comentarios.length > 0) {
+      @for (comentario of perfil.comentarios; track comentario._id) {
+        <div class="comentario-card">
+          <p>{{ comentario.mensaje }}</p>
+        </div>
+      }
+    } @else {
+      <p>Todavía no realizaste comentarios.</p>
+    }
+  }
+
+</div>

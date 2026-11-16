@@ -1,1 +1,7 @@
-<router-outlet> <router-outlet/>
+<router-outlet></router-outlet>
+
+<app-modal-sesion
+  [visible]="mostrarModal"
+  (cerrar)="cerrarSesion()"
+  (extender)="extenderSesion()"
+></app-modal-sesion>

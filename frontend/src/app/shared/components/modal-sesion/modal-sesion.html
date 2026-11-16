@@ -1,0 +1,20 @@
+@if (visible) {
+  <div class="fondo-modal">
+    <div class="modal">
+      <h2>Tu sesión está por vencer</h2>
+
+      <p>Te quedan 5 minutos de sesión.</p>
+      <p>¿Deseás extender tu sesión?</p>
+
+      <div class="acciones">
+        <button class="btn-extender" (click)="extender.emit()">
+          Extender sesión
+        </button>
+
+        <button class="btn-cerrar" (click)="cerrar.emit()">
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -10,7 +10,8 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
-const contrasenasIguales: ValidatorFn = (
+// Si coinciden las contraseñas
+const clavesIguales: ValidatorFn = (
   control: AbstractControl
 ): ValidationErrors | null => {
 
@@ -22,6 +23,35 @@ const contrasenasIguales: ValidatorFn = (
   }
 
   return clave === repetirClave ? null : { noCoinciden: true };
+};
+
+
+// Validar la contraseña con letra y num
+const validarClave: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+
+  const clave = control.value || '';
+
+  let tieneMayuscula = false;
+  let tieneNumero = false;
+
+  for (const caracter of clave) {
+
+    if (caracter >= 'A' && caracter <= 'Z') {
+      tieneMayuscula = true;
+    }
+
+    if (caracter >= '0' && caracter <= '9') {
+      tieneNumero = true;
+    }
+  }
+
+  if (!tieneMayuscula || !tieneNumero) {
+    return { claveInvalida: true };
+  }
+
+  return null;
 };
 
 @Component({
@@ -36,7 +66,6 @@ export class Registro {
   imagenSeleccionada: File | null = null;
 
   formRegistro = new FormGroup({
-    
 
     nombre: new FormControl('', [
       Validators.required
@@ -59,7 +88,7 @@ export class Registro {
     clave: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
-      Validators.pattern(/^(?=.*[A-Z])(?=.*\d).+$/)
+      validarClave
     ]),
 
     repetirClave: new FormControl('', [
@@ -72,15 +101,12 @@ export class Registro {
 
     descripcion: new FormControl('')
 
-
-
   }, {
-    validators: contrasenasIguales
+    validators: clavesIguales
   });
 
   seleccionarImagen(event: Event): void {
     const input = event.target as HTMLInputElement;
-
     this.imagenSeleccionada = input.files?.[0] ?? null;
   }
 
@@ -93,6 +119,5 @@ export class Registro {
 
     console.log(this.formRegistro.value);
     console.log(this.imagenSeleccionada);
-
   }
 }

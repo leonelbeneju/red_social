@@ -11,9 +11,9 @@
     </div>
 
     <div class="login">
-      <h2>Bienvenido</h2>
+      <h2><i>Bienvenido</i></h2>
       <p>Para que cada hincha del futbol siga a su equipo mas fácil<br>
-        <small class="alenta">Sumate a esta pasión ↓ ↓ ↓</small></p>
+        <small class="alenta">sumate a esta experiencia ↓ ↓ ↓</small></p>
     </div>
 
     <form [formGroup]="formLogin" (ngSubmit)="ingresar()">
@@ -52,6 +52,10 @@
         @if (formLogin.get('clave')?.touched &&
              formLogin.get('clave')?.hasError('minlength')) {
           <small>La contraseña debe tener al menos 8 caracteres.</small>
+        }
+
+        @if (mensajeError) {
+          <small class="error">{{ mensajeError }}</small>
         }
       </div>
 

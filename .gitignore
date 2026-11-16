@@ -1,0 +1,17 @@
+# Variables de entorno y credenciales
+.env
+.env.*
+backend/.env
+
+# Dependencias
+**/node_modules/
+
+# Archivos compilados
+**/dist/
+
+# Caché de Angular
+**/.angular/cache/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

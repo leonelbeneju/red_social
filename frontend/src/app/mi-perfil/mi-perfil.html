@@ -1,60 +1,76 @@
-<div class="perfil-container">
+<div class="pagina-perfil">
 
-  <h1>Mi perfil</h1>
-
-  @if (cargando) {
-    <p>Cargando perfil...</p>
-  }
-
-  @if (mensajeError) {
-    <p class="error">{{ mensajeError }}</p>
-  }
-
-  @if (perfil) {
-    <div class="perfil-card">
-
-      <h2>{{ perfil.usuario.nombre }} {{ perfil.usuario.apellido }}</h2>
-
-      <p><strong>Usuario:</strong> {{ perfil.usuario.usuario }}</p>
-
-      <p><strong>Correo:</strong> {{ perfil.usuario.correo }}</p>
-
-      <p><strong>Fecha de nacimiento:</strong>
-        {{ perfil.usuario.fechaNacimiento | date:'dd/MM/yyyy' }}
-      </p>
-
-      <p><strong>Descripción:</strong>
-        {{ perfil.usuario.descripcion || 'Sin descripción' }}
-      </p>
-
-      <p><strong>Perfil:</strong> {{ perfil.usuario.perfil }}</p>
-
+  <header class="navbar">
+    <div class="logo">
+      <img src="/livefutbol.png" alt="LiveFutbol">
     </div>
 
-    <h2>Mis últimas publicaciones</h2>
+    <nav class="menu">
+      <a routerLink="/publicaciones">Publicaciones</a>
+      <a routerLink="/miPerfil" class="activo">Mi perfil</a>
+    </nav>
+  </header>
 
-    @if (perfil.ultimasPublicaciones.length > 0) {
-      @for (publicacion of perfil.ultimasPublicaciones; track publicacion._id) {
-        <div class="publicacion-card">
-          <h3>{{ publicacion.titulo }}</h3>
-          <p>{{ publicacion.mensaje }}</p>
-        </div>
-      }
-    } @else {
-      <p>Todavía no tenés publicaciones.</p>
+  <main class="contenido">
+
+    <h1>Mi perfil</h1>
+    <p class="subtitulo">Tu espacio en la comunidad LiveFutbol.</p>
+
+    @if (cargando) {
+      <p class="mensaje-estado">Cargando tu perfil...</p>
     }
 
-    <h2>Mis comentarios</h2>
-
-    @if (perfil.comentarios.length > 0) {
-      @for (comentario of perfil.comentarios; track comentario._id) {
-        <div class="comentario-card">
-          <p>{{ comentario.mensaje }}</p>
-        </div>
-      }
-    } @else {
-      <p>Todavía no realizaste comentarios.</p>
+    @if (mensajeError) {
+      <p class="mensaje-error">{{ mensajeError }}</p>
     }
-  }
 
+    @if (perfil && !cargando) {
+      <section class="perfil-card">
+
+        <div class="portada">
+          @if (perfil.imagen) {
+            <img class="avatar" [src]="perfil.imagen" alt="Foto de perfil">
+          } @else {
+            <div class="avatar">
+              {{ perfil.nombre?.charAt(0) || 'U' }}
+            </div>
+          }
+        </div>
+
+        <div class="datos">
+
+          <h2>{{ perfil.nombre }} {{ perfil.apellido }}</h2>
+
+          <p class="username">@{{ perfil.usuario }}</p>
+
+          <span class="rol">{{ perfil.perfil || 'Usuario' }}</span>
+
+          <div class="descripcion">
+            <h3>Sobre mí</h3>
+            <p>
+              {{ perfil.descripcion || 'Todavía no agregaste una descripción. ¡Contanos algo sobre vos!' }}
+            </p>
+          </div>
+
+          <div class="informacion">
+
+            <div>
+              <strong>Correo electrónico</strong>
+              <span>{{ perfil.correo }}</span>
+            </div>
+
+            <div>
+              <strong>Fecha de nacimiento</strong>
+              <span>
+                {{ perfil.fechaNacimiento ? (perfil.fechaNacimiento | date:'dd/MM/yyyy') : 'No disponible' }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+    }
+
+  </main>
 </div>

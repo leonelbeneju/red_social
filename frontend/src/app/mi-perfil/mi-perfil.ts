@@ -1,11 +1,12 @@
-
 import { Component, OnInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { UsuariosService } from '../core/services/usuario.service';
-import { DatePipe } from '@angular/common';
 
 @Component({
-  imports: [DatePipe],
   selector: 'app-mi-perfil',
+  standalone: true,
+  imports: [CommonModule, DatePipe, RouterLink],
   styleUrl: './mi-perfil.css',
   templateUrl: './mi-perfil.html',
 })
@@ -31,3 +32,4 @@ export class MiPerfil implements OnInit {
     });
   }
 }
+

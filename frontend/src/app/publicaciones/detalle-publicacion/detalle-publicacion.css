@@ -1,0 +1,331 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #101b16;
+  color: #f1f5f2;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.pagina-detalle {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #101b16, #172a20);
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+
+.navbar {
+  min-height: 85px;
+  padding: 10px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0c1510;
+  border-bottom: 1px solid #263c2e;
+}
+
+.img {
+  display: flex;
+  align-items: center;
+}
+
+.img img {
+  width: 150px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.menu {
+  display: flex;
+  gap: 30px;
+}
+
+.menu a {
+  color: #b7c5bb;
+  text-decoration: none;
+  font-size: 14px;
+  transition: .3s;
+}
+
+.menu a:hover {
+  color: #45c477;
+}
+
+/* CONTENIDO */
+
+.contenido {
+  width: 90%;
+  max-width: 850px;
+  margin: 35px auto;
+}
+
+.mensaje-estado {
+  padding: 22px;
+  text-align: center;
+  color: #aebeb3;
+  background: #1b2b21;
+  border: 1px solid #304737;
+  border-radius: 12px;
+}
+
+.mensaje-error {
+  color: #ff8585;
+  padding: 12px;
+  background: #351c1c;
+  border-radius: 8px;
+}
+
+/* PUBLICACIÓN */
+
+.publicacion-detalle {
+  width: 100%;
+  background: #1b2b21;
+  border: 1px solid #304737;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 8px 25px #00000025;
+  overflow: hidden;
+}
+
+.autor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.avatar {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #23864b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.autor h3 {
+  margin: 0 0 5px;
+  font-size: 15px;
+}
+
+.autor span {
+  color: #91a397;
+  font-size: 12px;
+}
+
+.publicacion-detalle h1 {
+  font-size: 25px;
+  margin: 0 0 15px;
+  overflow-wrap: anywhere;
+}
+
+.publicacion-detalle .mensaje {
+  color: #c0ccc3;
+  line-height: 1.7;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.imagen-publicacion {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  background: #101b16;
+  margin-top: 18px;
+  border-radius: 10px;
+}
+
+.estadisticas {
+  border-top: 1px solid #304737;
+  margin-top: 20px;
+  padding-top: 15px;
+  color: #aebeb3;
+  font-size: 14px;
+}
+
+/* SECCIÓN COMENTARIOS */
+
+.seccion-comentarios {
+  background: #1b2b21;
+  border: 1px solid #304737;
+  border-radius: 14px;
+  padding: 25px;
+  margin-top: 22px;
+  box-shadow: 0 8px 25px #00000025;
+}
+
+.seccion-comentarios h2 {
+  color: #45c477;
+  font-size: 21px;
+  margin: 0 0 20px;
+}
+
+/* FORMULARIO */
+
+.seccion-comentarios form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.seccion-comentarios textarea {
+  width: 100%;
+  min-height: 100px;
+  max-height: 220px;
+  resize: vertical;
+  background: #101b16;
+  color: white;
+  border: 1px solid #304737;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.seccion-comentarios textarea:focus {
+  outline: none;
+  border-color: #45c477;
+}
+
+.seccion-comentarios textarea::placeholder {
+  color: #829489;
+}
+
+.seccion-comentarios form button {
+  align-self: flex-start;
+  background: #176b3e;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.seccion-comentarios form button:hover {
+  background: #21864f;
+}
+
+.seccion-comentarios form button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.mensaje-exito {
+  color: #45c477;
+  font-size: 13px;
+}
+
+.seccion-comentarios .mensaje-error {
+  font-size: 13px;
+}
+
+/* LISTA DE COMENTARIOS */
+
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+}
+
+.comentario {
+  border-top: 1px solid #304737;
+  padding: 18px 0;
+  overflow-wrap: anywhere;
+}
+
+.autor-comentario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.autor-comentario .avatar {
+  width: 38px;
+  height: 38px;
+}
+
+.autor-comentario strong {
+  font-size: 14px;
+}
+
+.autor-comentario span {
+  display: block;
+  color: #91a397;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.comentario p {
+  color: #c0ccc3;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 12px 0 5px;
+  white-space: pre-wrap;
+}
+
+.comentario small {
+  color: #45c477;
+  font-size: 11px;
+  font-style: italic;
+}
+
+.sin-comentarios {
+  color: #91a397;
+  text-align: center;
+  padding: 22px 10px;
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 10px 5%;
+  }
+
+  .img img {
+    width: 120px;
+    height: 50px;
+  }
+
+  .menu {
+    gap: 14px;
+  }
+
+  .menu a {
+    font-size: 12px;
+  }
+
+  .contenido {
+    width: 92%;
+    margin: 25px auto;
+  }
+
+  .publicacion-detalle,
+  .seccion-comentarios {
+    padding: 16px;
+  }
+
+  .publicacion-detalle h1 {
+    font-size: 21px;
+  }
+
+  .imagen-publicacion {
+    max-height: 280px;
+  }
+
+  .seccion-comentarios h2 {
+    font-size: 19px;
+  }
+}

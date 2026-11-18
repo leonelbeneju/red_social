@@ -36,14 +36,26 @@ export class App implements OnInit, OnDestroy {
   }
 
 
+  renovando = false;
+
   extenderSesion(): void {
+
+    if (this.renovando) {
+      return;
+    }
+
+    this.renovando = true;
+
     this.authService.refrescarToken().subscribe({
       next: (respuesta) => {
         this.authService.guardarToken(respuesta.access_token);
         this.sesionService.iniciarContador();
+
         this.mostrarModal = false;
+        this.renovando = false;
       },
       error: () => {
+        this.renovando = false;
         this.cerrarSesion();
       }
     });

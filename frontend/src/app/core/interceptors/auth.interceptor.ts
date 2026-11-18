@@ -2,7 +2,6 @@ import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-
 import { AuthService } from '../services/auth.service';
 import { SesionService } from '../services/sesion.service';
 
@@ -21,6 +20,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         }
       })
     : req;
+  
+  console.log('INTERCEPTOR EJECUTADO');
+  console.log('TOKEN EN INTERCEPTOR:', token ? 'EXISTE' : 'NO EXISTE');
+  console.log('URL:', req.url);
+
 
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {

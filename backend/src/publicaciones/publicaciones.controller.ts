@@ -1,9 +1,10 @@
-import { Controller, Get, UseGuards, Post, Body, Req, Param, Patch, Delete, Query} from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Body, Req, Param, Patch, Delete, Query, Put } from '@nestjs/common';
 import { AuthGuard} from '../autenticacion/guards/auth.guard';
 import { PublicacionesService } from './publicaciones.service';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
 import { UpdatePublicacionDto } from './dto/update-publicacion.dto';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
+import { UpdateComentarioDto } from './dto/update-comentario.dts';
 
 @Controller('publicaciones')
 @UseGuards(AuthGuard)
@@ -104,5 +105,28 @@ export class PublicacionesController {
       );
     }
 
+    @Get(':id/comentarios')
+    obtenerComentario(
+      @Param('id') id: string,
+      @Query('offset') offset: string = '0',
+      @Query('limit') limit: string = '5',
+    ) {
+      return this.publicacionesService.obtenerComentario(id, offset, limit);
+    }
+
+    @Put(':id/comentarios/:comentarioId')
+    editarComentario(
+      @Param('id') id: string,
+      @Param('comentarioId') comentarioId: string,
+      @Body() comentarioDto: UpdateComentarioDto,
+      @Req() req: any,
+    ) {
+      return this.publicacionesService.editarComentario(
+        id,
+        comentarioId,
+        comentarioDto,
+        req.user.sub,
+      );
+    }
     
 }

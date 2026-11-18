@@ -9,37 +9,73 @@
 }
 
 .modal {
-  background: white;
-  color: #222;
-  padding: 30px;
-  border-radius: 14px;
-  width: 90%;
-  max-width: 420px;
+  width: 250px;
+  height: 160px;
+  max-width: calc(100vw - 30px);
+  box-sizing: border-box;
+  padding: 10px;
+
+  background-image: url('/modal_sesion.png');
+  background-size: 115%;
+  background-position: center;
+
+  color: white;
+  border: 1px solid #287c49;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   text-align: center;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+}
+
+.sesion_exp {
+  margin: 0;
+  width: 190px;
+  min-height: 25px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 7px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sesion_exp h4 {
+  margin: 0px;
+  color: white;
+  font-family:monospace;
+  font-size: 13px;
+}
+
+p {
+  font-size: 12px;
+  margin: 0px;
 }
 
 .acciones {
   display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 25px;
+  justify-content:center;
+  gap: 8px;
 }
 
 button {
   border: none;
-  padding: 12px 18px;
-  border-radius: 8px;
+  margin-top: 45px;
+  padding: 5px 9px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 11px;
   font-weight: bold;
-}
-
-.btn-extender {
-  background: #176b3e;
+  background: #2b322e;
   color: white;
 }
 
-.btn-cerrar {
-  background: #ddd;
-  color: #222;
+button:hover {
+  background: #176b3e;
 }

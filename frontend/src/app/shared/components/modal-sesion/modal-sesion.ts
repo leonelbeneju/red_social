@@ -11,6 +11,8 @@ export class ModalSesion {
 
   @Input() visible = false;
 
+  @Input() renovando = false;
+
   @Output() extender = new EventEmitter<void>();
 
   @Output() cerrar = new EventEmitter<void>();

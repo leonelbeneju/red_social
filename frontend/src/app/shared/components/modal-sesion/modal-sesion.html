@@ -1,14 +1,21 @@
 @if (visible) {
   <div class="fondo-modal">
     <div class="modal">
-      <h2>Tu sesión está por vencer</h2>
+      <div class="sesion_exp">
+        <h4>Tu sesión está por vencer</h4>
+      </div>
+      
 
       <p>Te quedan 5 minutos de sesión.</p>
       <p>¿Deseás extender tu sesión?</p>
 
       <div class="acciones">
-        <button class="btn-extender" (click)="extender.emit()">
-          Extender sesión
+        <button
+          class="btn-extender"
+          [disabled]="renovando"
+          (click)="extender.emit()"
+        >
+          {{ renovando ? 'Renovando sesión...' : 'Extender sesión' }}
         </button>
 
         <button class="btn-cerrar" (click)="cerrar.emit()">

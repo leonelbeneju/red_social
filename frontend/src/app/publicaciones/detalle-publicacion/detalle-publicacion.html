@@ -1,0 +1,152 @@
+<div class="pagina-detalle">
+
+  <header class="navbar">
+    <div class="img">
+      <img src="/livefutbol.png" alt="LiveFutbol">
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/publicaciones">Volver a publicaciones</a>
+      <a routerLink="/miPerfil">Mi perfil</a>
+    </nav>
+  </header>
+
+  <main class="contenido">
+
+    @if (cargando) {
+      <p class="mensaje-estado">Cargando publicación...</p>
+    }
+
+    @if (error) {
+      <p class="mensaje-error">{{ error }}</p>
+    }
+
+    @if (publicacion && !cargando) {
+
+      <article class="publicacion-detalle">
+
+        <div class="autor">
+          <div class="avatar">
+            {{ publicacion.autor?.nombre?.charAt(0) || 'U' }}
+          </div>
+
+          <div>
+            <h3>
+              {{ publicacion.autor?.nombre || 'Usuario' }}
+              {{ publicacion.autor?.apellido || '' }}
+            </h3>
+
+            <span>
+              {{ publicacion.createdAt | date:'dd/MM/yyyy HH:mm' }}
+            </span>
+          </div>
+        </div>
+
+        <h1>{{ publicacion.titulo }}</h1>
+
+        <p class="mensaje">{{ publicacion.mensaje }}</p>
+
+        @if (publicacion.imagen) {
+          <img
+            class="imagen-publicacion"
+            [src]="publicacion.imagen"
+            alt="Imagen de la publicación">
+        }
+
+        <div class="estadisticas">
+          ❤️ {{ publicacion.cantidadLikes ?? publicacion.reacciones?.length ?? 0 }}
+          Me gusta
+        </div>
+
+      </article>
+
+      <!-- SECCIÓN DE COMENTARIOS -->
+
+      <section class="seccion-comentarios">
+
+        <h2>Comentarios ({{ comentarios.length }})</h2>
+
+        <form
+          [formGroup]="formularioComentario"
+          (ngSubmit)="agregarComentario()">
+
+          <textarea
+            formControlName="mensaje"
+            placeholder="Escribí tu comentario..."
+            maxlength="1000">
+          </textarea>
+
+          @if (
+            formularioComentario.get('mensaje')?.touched &&
+            formularioComentario.get('mensaje')?.invalid
+          ) {
+            <p class="mensaje-error">
+              Escribí un comentario válido de hasta 1000 caracteres.
+            </p>
+          }
+
+          @if (errorComentario) {
+            <p class="mensaje-error">{{ errorComentario }}</p>
+          }
+
+          @if (mensajeExito) {
+            <p class="mensaje-exito">{{ mensajeExito }}</p>
+          }
+
+          <button
+            type="submit"
+            [disabled]="enviandoComentario">
+
+            {{ enviandoComentario ? 'Publicando...' : 'Publicar comentario' }}
+
+          </button>
+
+        </form>
+
+        <div class="lista-comentarios">
+
+          @for (comentario of comentarios; track comentario._id) {
+
+            <article class="comentario">
+
+              <div class="autor-comentario">
+
+                <div class="avatar">
+                  {{ comentario.autor?.nombre?.charAt(0) || 'U' }}
+                </div>
+
+                <div>
+                  <strong>
+                    {{ comentario.autor?.nombre || 'Usuario' }}
+                    {{ comentario.autor?.apellido || '' }}
+                  </strong>
+
+                  <span>
+                    {{ comentario.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                  </span>
+                </div>
+
+              </div>
+
+              <p>{{ comentario.mensaje }}</p>
+
+              @if (comentario.modificado) {
+                <small>(editado)</small>
+              }
+
+            </article>
+
+          } @empty {
+            <p class="sin-comentarios">
+              Todavía no hay comentarios. ¡Sé el primero!
+            </p>
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
+</div>

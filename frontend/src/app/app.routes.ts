@@ -26,6 +26,13 @@ export const routes: Routes = [
         
     },
 
+        
+    {
+        path: 'publicaciones/:id',
+        loadComponent: () => import('./publicaciones/detalle-publicacion/detalle-publicacion')
+        .then(m => m.DetallePublicacion)
+    },
+    
     {
         path:'registro',
         loadComponent: () => import('./auth/registro/registro').then(m => m.Registro)

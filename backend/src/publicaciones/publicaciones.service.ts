@@ -5,6 +5,7 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Publicacion } from './entities/publicacion.entity';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
+import { UpdateComentarioDto } from './dto/update-comentario.dts';
 
 @Injectable()
 export class PublicacionesService {
@@ -231,6 +232,86 @@ export class PublicacionesService {
     return {
       mensaje: 'Comentario agregado correctamente',
       comentarios: publicacion.comentarios,
+    };
+  }
+
+    async obtenerComentario(
+    id: string,
+    offset: string,
+    limit: string,
+  ) {
+    const publicacion = await this.publicacionModel
+      .findOne({ _id: id, activo: true })
+      .populate('comentarios.autor', 'nombre apellido usuario imagen');
+
+    if (!publicacion) {
+      throw new NotFoundException('Publicación no encontrada');
+    }
+
+    const desde = Math.max(0, Number(offset) || 0);
+    const cantidad = Math.min(20, Math.max(1, Number(limit) || 5));
+
+    const comentariosOrdenados = [...publicacion.comentarios].sort(
+      (a: any, b: any) =>
+        new Date(b.createdAt).getTime() -
+        new Date(a.createdAt).getTime(),
+    );
+
+    const comentarios = comentariosOrdenados.slice(
+      desde,
+      desde + cantidad,
+    );
+
+    return {
+      comentarios,
+      total: comentariosOrdenados.length,
+      offset: desde,
+      limit: cantidad,
+    };
+  }
+
+  async editarComentario(
+    id: string,
+    comentarioId: string,
+    comentarioDto: UpdateComentarioDto,
+    usuarioId: string,
+  ) {
+    const publicacion = await this.publicacionModel.findOne({
+      _id: id,
+      activo: true,
+    });
+
+    if (!publicacion) {
+      throw new NotFoundException('Publicación no encontrada');
+    }
+
+    const comentario = publicacion.comentarios.find(
+      (c: any) => c._id.toString() === comentarioId,
+    );
+
+    if (!comentario) {
+      throw new NotFoundException('Comentario no encontrado');
+    }
+
+    if (comentario.autor.toString() !== usuarioId) {
+      throw new ForbiddenException(
+        'No tenés permiso para editar este comentario',
+      );
+    }
+
+    comentario.mensaje = comentarioDto.mensaje;
+    comentario.modificado = true;
+
+    await publicacion.save();
+
+    await publicacion.populate(
+      'comentarios.autor',
+      'nombre apellido usuario imagen',
+    );
+
+    return {
+      mensaje: 'Comentario editado correctamente',
+      comentario,
     };
   }
 }

@@ -1,1 +1,168 @@
-<h1 class="pub">Publicaciones</h1>
+<div class="pagina-publicaciones">
+
+  <header class="navbar">
+    <div class="img">
+      <img src="/livefutbol.png" alt="LiveFutbol">
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/publicaciones">Publicaciones</a>
+      <a routerLink="/mi-perfil">Mi perfil</a>
+    </nav>
+  </header>
+
+  <main class="contenido">
+
+    <section class="encabezado">
+      <p class="subtitulo">LA COMUNIDAD DEL FÚTBOL</p>
+      <h2>Publicaciones</h2>
+      <p class="descripcion">Compartí tu pasión por el fútbol.</p>
+    </section>
+
+    <button
+      type="button"
+      class="btn-nueva-publicacion"
+      (click)="mostrarFormulario = !mostrarFormulario">
+      {{ mostrarFormulario ? 'Cancelar' : '+ Crear publicación' }}
+    </button>
+
+    @if (mostrarFormulario) {
+      <section class="formulario-publicacion">
+
+        <h3>Compartí algo con la comunidad</h3>
+
+        <form [formGroup]="formularioPublicacion"
+              (ngSubmit)="crearPublicacion()">
+
+          <label for="titulo">Título</label>
+          <input
+            id="titulo"
+            type="text"
+            formControlName="titulo"
+            placeholder="¿De qué querés hablar?"
+          >
+
+          @if (formularioPublicacion.get('titulo')?.touched &&
+               formularioPublicacion.get('titulo')?.hasError('required')) {
+            <small>El título es obligatorio.</small>
+          }
+
+          @if (formularioPublicacion.get('titulo')?.hasError('maxlength')) {
+            <small>Máximo 100 caracteres.</small>
+          }
+
+          <label for="mensaje">Mensaje</label>
+          <textarea
+            id="mensaje"
+            formControlName="mensaje"
+            rows="5"
+            placeholder="Escribí tu publicación..."
+          ></textarea>
+
+          @if (formularioPublicacion.get('mensaje')?.touched &&
+               formularioPublicacion.get('mensaje')?.hasError('required')) {
+            <small>El mensaje es obligatorio.</small>
+          }
+
+          @if (formularioPublicacion.get('mensaje')?.hasError('maxlength')) {
+            <small>Máximo 2000 caracteres.</small>
+          }
+
+          <label for="imagen">Imagen (opcional)</label>
+          <input
+            id="imagen"
+            type="text"
+            formControlName="imagen"
+            placeholder="Pegá la URL de una imagen"
+          >
+
+          <button
+            type="submit"
+            class="btn-publicar"
+            [disabled]="publicando">
+            {{ publicando ? 'Publicando...' : 'Publicar' }}
+          </button>
+
+        </form>
+      </section>
+    }
+
+    @if (mensajeExito) {
+      <p class="mensaje-exito">{{ mensajeExito }}</p>
+    }
+
+    @if (cargando) {
+      <p class="mensaje-estado">Cargando publicaciones...</p>
+    }
+
+    @if (error) {
+      <p class="mensaje-error">{{ error }}</p>
+      <button type="button" (click)="cargarPublicaciones()">Reintentar</button>
+    }
+
+    @if (!cargando && publicaciones.length === 0 && !error) {
+      <div class="mensaje-estado">
+        Todavía no hay publicaciones. ¡Sé el primero en compartir algo!
+      </div>
+    }
+
+    <section class="lista-publicaciones">
+
+      @for (publicacion of publicaciones; track publicacion._id) {
+        <article class="publicacion">
+
+          <div class="autor">
+            <div class="avatar">
+              {{ publicacion.autor?.nombre?.charAt(0) || 'U' }}
+            </div>
+
+            <div>
+              <h4>
+                {{ publicacion.autor?.nombre || 'Usuario' }}
+                {{ publicacion.autor?.apellido || '' }}
+              </h4>
+              <span>{{ publicacion.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          </div>
+
+          <h3>{{ publicacion.titulo }}</h3>
+          <p>{{ publicacion.mensaje }}</p>
+
+          @if (publicacion.imagen) {
+            <img
+              class="imagen-publicacion"
+              [src]="publicacion.imagen"
+              alt="Imagen de la publicación"
+            >
+          }
+
+          <div class="acciones-publicacion">
+
+            <button
+              type="button"
+              [disabled]="likesProcesando.includes(publicacion._id)"
+              (click)="alternarLike(publicacion)">
+
+              {{ yaDioLike(publicacion) ? '❤️' : '🤍' }}
+              Me gusta
+              {{ publicacion.cantidadLikes ?? publicacion.reacciones?.length ?? 0 }}
+
+            </button>
+
+            <button type="button"
+            (click)="probarNavegacion(publicacion._id)">
+              💬 Comentar
+            </button>
+
+          </div>
+
+        </article>
+      }
+
+    </section>
+
+  </main>
+</div>
+
+
+

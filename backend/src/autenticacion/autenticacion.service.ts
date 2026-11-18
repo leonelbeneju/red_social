@@ -39,6 +39,12 @@ export class AutenticacionService {
       throw new UnauthorizedException('Credenciales incorrectas');
     }
 
+    if (!user.activo) {
+      throw new UnauthorizedException(
+        'Tu cuenta se encuentra desactivada. Contactá al administrador.',
+      );
+    }
+
     return this.generateToken(user);
   }
 
@@ -112,6 +118,12 @@ export class AutenticacionService {
       throw new UnauthorizedException('Usuario no encontrado');
     }
 
+    if (!usuario.activo) {
+      throw new UnauthorizedException(
+        'Tu cuenta se encuentra desactivada.',
+      );
+    }
+
     return { usuario };
   }
 
@@ -122,6 +134,14 @@ export class AutenticacionService {
       payload = await this.jwtService.verifyAsync(token);
     } catch {
       throw new UnauthorizedException('Token inválido o vencido');
+    }
+
+    const usuario = await this.usuarioModel.findById(payload.sub);
+
+    if (!usuario || !usuario.activo) {
+      throw new UnauthorizedException(
+        'Tu cuenta se encuentra desactivada o no existe.',
+      );
     }
 
     // Sacamos los datos del token anterior.

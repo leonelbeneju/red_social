@@ -235,7 +235,7 @@ export class PublicacionesService {
     };
   }
 
-    async obtenerComentario(
+  async obtenerComentario(
     id: string,
     offset: string,
     limit: string,
@@ -314,4 +314,6 @@ export class PublicacionesService {
       comentario,
     };
   }
+
+  
 }

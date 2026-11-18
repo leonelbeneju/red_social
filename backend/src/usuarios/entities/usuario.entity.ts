@@ -33,6 +33,9 @@ export class Usuario {
     default: 'usuario',
   })
   perfil: string;
+
+  @Prop({ type: Boolean, default: true })
+  activo: boolean;
 }
 
 export type UsuarioDocument = HydratedDocument<Usuario>;

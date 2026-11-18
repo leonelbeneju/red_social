@@ -1,4 +1,3 @@
-
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosService } from '../../core/services/usuario.service';
@@ -19,19 +18,30 @@ export class Usuarios implements OnInit {
   error = '';
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
+  console.log('SE INICIÓ EL COMPONENTE ADMIN');
+  this.obtenerUsuarios();
   }
 
   obtenerUsuarios(): void {
+    console.log('INICIA CARGA');
+
     this.cargando = true;
     this.error = '';
 
     this.usuariosService.obtenerUsuarios().subscribe({
       next: (respuesta) => {
-        this.usuarios = respuesta;
+        console.log('LLEGÓ RESPUESTA:', respuesta);
+
+        this.usuarios = Array.isArray(respuesta)
+          ? respuesta
+          : respuesta.usuarios ?? [];
+
         this.cargando = false;
+
+        console.log('FINALIZÓ CARGA:', this.cargando);
       },
       error: (err) => {
+        console.error('ERROR:', err);
         this.error = err.error?.message || 'No se pudieron cargar los usuarios';
         this.cargando = false;
       }

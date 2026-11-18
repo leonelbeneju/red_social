@@ -1,3 +1,4 @@
+
 :host {
   display: block;
   min-height: 100vh;
@@ -12,6 +13,7 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -21,6 +23,7 @@
   background: transparent;
   overflow-x: hidden;
 }
+
 /* NAVBAR */
 
 .navbar {
@@ -80,7 +83,7 @@
 }
 
 .subtitulo {
-  color: #19834c;
+  color: #45c477;
   font-size: 11px;
   font-weight: bold;
   letter-spacing: 2px;
@@ -89,7 +92,7 @@
 .encabezado h2 {
   font-size: 30px;
   margin: 8px 0;
-  color: #145c37;
+  color: #45c477;
 }
 
 .descripcion {
@@ -131,7 +134,7 @@
 
 .formulario-publicacion h3 {
   margin: 0 0 18px;
-  color: #145c37;
+  color: #45c477;
   font-size: 20px;
 }
 
@@ -269,7 +272,7 @@
 .autor h4 {
   margin: 0 0 5px;
   font-size: 14px;
-  color: #145c37;
+  color: #45c477;
 }
 
 .autor span {
@@ -280,7 +283,7 @@
 .publicacion h3 {
   font-size: 19px;
   margin: 0 0 10px;
-  color: #145c37;
+  color: #45c477;
   overflow-wrap: anywhere;
 }
 
@@ -379,3 +382,4 @@ button {
     height: 190px;
   }
 }
+

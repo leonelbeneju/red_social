@@ -1,0 +1,190 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: #f1f5f2;
+  background-image:
+    linear-gradient(rgba(10, 25, 16, 0.45), rgba(10, 25, 16, 0.60)),
+    url('/futbol1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.admin-container {
+  min-height: 100vh;
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 45px 0;
+}
+
+.admin-container h1 {
+  color: #45c477;
+  font-size: 30px;
+  margin: 0 0 10px;
+}
+
+.admin-container > p {
+  color: #c0ccc3;
+  font-size: 15px;
+  margin-bottom: 30px;
+}
+
+.usuarios-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 18px;
+}
+
+.usuario-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 22px;
+  background: rgba(27, 43, 33, 0.96);
+  border: 1px solid #304737;
+  border-radius: 13px;
+  box-shadow: 0 8px 25px #00000035;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.usuario-card:hover {
+  border-color: #45c477;
+  transform: translateY(-3px);
+}
+
+.usuario-card h3 {
+  color: #f1f5f2;
+  font-size: 17px;
+  margin: 0 0 8px;
+}
+
+.usuario-card p {
+  color: #aebeb3;
+  font-size: 13px;
+  margin: 5px 0;
+  overflow-wrap: anywhere;
+}
+
+.usuario-card span {
+  display: inline-block;
+  margin: 8px 6px 0 0;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #263c2e;
+  color: #45c477;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.usuario-card button {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 13px;
+  background: #8b3030;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.usuario-card button:hover {
+  background: #b83d3d;
+}
+
+.usuario-card button:has(+ *) {
+  background: #176b3e;
+}
+
+.error {
+  color: #ff8585;
+  padding: 14px;
+  margin-bottom: 20px;
+  background: rgba(53, 28, 28, 0.95);
+  border: 1px solid #713b3b;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .admin-container {
+    width: 92%;
+    padding: 30px 0;
+  }
+
+  .admin-container h1 {
+    font-size: 24px;
+  }
+
+  .usuario-card {
+    padding: 16px;
+  }
+
+  .usuario-card button {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+}
+
+
+.admin-panel {
+  width: 100%;
+  padding: 35px;
+  background: rgba(12, 30, 19, 0.82);
+  border: 1px solid rgba(69, 196, 119, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(7px);
+}
+
+.admin-panel h1 {
+  color: #45c477;
+  margin-top: 0;
+}
+
+.admin-panel > p {
+  color: #d0ded4;
+}
+
+.btn-desactivar,
+.btn-activar {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-desactivar {
+  background: #a83232;
+}
+
+.btn-desactivar:hover {
+  background: #cc4141;
+  transform: translateY(-2px);
+}
+
+.btn-activar {
+  background: #176b3e;
+}
+
+.btn-activar:hover {
+  background: #21864f;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .admin-panel {
+    padding: 20px;
+  }
+}

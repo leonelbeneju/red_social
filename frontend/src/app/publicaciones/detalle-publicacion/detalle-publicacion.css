@@ -1,14 +1,24 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: #101b16;
-  color: #f1f5f2;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  color: #303b32;
+
+  background-image:
+    linear-gradient(rgba(10, 25, 16, 0.45), rgba(10, 25, 16, 0.60)),
+    url('/futbol1.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 * {
   box-sizing: border-box;
 }
+
+/* PÁGINA */
 
 .pagina-detalle {
   min-height: 100vh;
@@ -24,8 +34,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0c1510;
-  border-bottom: 1px solid #263c2e;
+  background: #0c2518;
+  border-bottom: 2px solid #176b3e;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
 }
 
 .img {
@@ -45,9 +56,10 @@
 }
 
 .menu a {
-  color: #b7c5bb;
+  color: #e0eae3;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 600;
   transition: .3s;
 }
 
@@ -63,31 +75,34 @@
   margin: 35px auto;
 }
 
+/* MENSAJES DE ESTADO */
+
 .mensaje-estado {
   padding: 22px;
   text-align: center;
-  color: #aebeb3;
-  background: #1b2b21;
-  border: 1px solid #304737;
+  color: #777;
+  background: #f8f8f3;
+  border: 2px solid #176b3e;
   border-radius: 12px;
 }
 
 .mensaje-error {
-  color: #ff8585;
-  padding: 12px;
-  background: #351c1c;
+  color: #b52b2b;
+  padding: 15px;
+  background: #ffe9e9;
+  border: 1px solid #e8aaaa;
   border-radius: 8px;
 }
 
-/* PUBLICACIÓN */
+/* PUBLICACIÓN PRINCIPAL */
 
 .publicacion-detalle {
   width: 100%;
-  background: #1b2b21;
-  border: 1px solid #304737;
+  background: #f8f8f3;
+  border: 2px solid #176b3e;
   border-radius: 14px;
   padding: 25px;
-  box-shadow: 0 8px 25px #00000025;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
@@ -103,7 +118,7 @@
   height: 43px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #23864b;
+  background: #176b3e;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,21 +129,23 @@
 .autor h3 {
   margin: 0 0 5px;
   font-size: 15px;
+  color: #45c477;
 }
 
 .autor span {
-  color: #91a397;
+  color: #777;
   font-size: 12px;
 }
 
 .publicacion-detalle h1 {
   font-size: 25px;
   margin: 0 0 15px;
+  color: #45c477;
   overflow-wrap: anywhere;
 }
 
 .publicacion-detalle .mensaje {
-  color: #c0ccc3;
+  color: #555;
   line-height: 1.7;
   font-size: 15px;
   overflow-wrap: anywhere;
@@ -141,28 +158,29 @@
   max-width: 100%;
   max-height: 450px;
   object-fit: contain;
-  background: #101b16;
+  background: #e9eee9;
   margin-top: 18px;
   border-radius: 10px;
 }
 
 .estadisticas {
-  border-top: 1px solid #304737;
+  border-top: 1px solid #d5e2d8;
   margin-top: 20px;
   padding-top: 15px;
-  color: #aebeb3;
+  color: #176b3e;
   font-size: 14px;
+  font-weight: 600;
 }
 
-/* SECCIÓN COMENTARIOS */
+/* COMENTARIOS */
 
 .seccion-comentarios {
-  background: #1b2b21;
-  border: 1px solid #304737;
+  background: #f8f8f3;
+  border: 2px solid #176b3e;
   border-radius: 14px;
   padding: 25px;
   margin-top: 22px;
-  box-shadow: 0 8px 25px #00000025;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .seccion-comentarios h2 {
@@ -171,7 +189,7 @@
   margin: 0 0 20px;
 }
 
-/* FORMULARIO */
+/* FORMULARIO DE COMENTARIOS */
 
 .seccion-comentarios form {
   display: flex;
@@ -180,53 +198,80 @@
   margin-bottom: 25px;
 }
 
-.seccion-comentarios textarea {
+.seccion-comentarios textarea,
+.comentario textarea {
   width: 100%;
   min-height: 100px;
   max-height: 220px;
   resize: vertical;
-  background: #101b16;
-  color: white;
-  border: 1px solid #304737;
+  background: white;
+  color: #202820;
+  border: 1px solid rgba(4, 188, 77, 0.3);
   border-radius: 8px;
   padding: 12px;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
-}
-
-.seccion-comentarios textarea:focus {
   outline: none;
-  border-color: #45c477;
+  transition: .2s;
 }
 
-.seccion-comentarios textarea::placeholder {
+.seccion-comentarios textarea:focus,
+.comentario textarea:focus {
+  border-color: #45c477;
+  box-shadow: 0 0 0 3px rgba(69, 196, 119, 0.12);
+}
+
+.seccion-comentarios textarea::placeholder,
+.comentario textarea::placeholder {
   color: #829489;
 }
 
-.seccion-comentarios form button {
+/* BOTONES */
+
+.seccion-comentarios button,
+.acciones-edicion button {
   align-self: flex-start;
   background: #176b3e;
   color: white;
   padding: 10px 18px;
+  border: none;
   border-radius: 7px;
   font-weight: bold;
+  cursor: pointer;
+  transition: .3s;
 }
 
-.seccion-comentarios form button:hover {
-  background: #21864f;
+.seccion-comentarios button:hover,
+.acciones-edicion button:hover {
+  background: #10532f;
+  transform: translateY(-2px);
 }
 
-.seccion-comentarios form button:disabled {
+.seccion-comentarios button:disabled,
+.acciones-edicion button:disabled {
   opacity: .6;
   cursor: not-allowed;
+  transform: none;
 }
+
+.seccion-comentarios .btn-cargar-mas {
+  background: #e5f5e9;
+  color: #176b3e;
+  border: 1px solid #45a96b;
+}
+
+.seccion-comentarios .btn-cargar-mas:hover {
+  background: #d3edda;
+}
+
+/* MENSAJES */
 
 .mensaje-exito {
-  color: #45c477;
-  font-size: 13px;
-}
-
-.seccion-comentarios .mensaje-error {
+  color: #145c37;
+  background: #e5f5e9;
+  border: 1px solid #45a96b;
+  padding: 12px;
+  border-radius: 8px;
   font-size: 13px;
 }
 
@@ -238,7 +283,7 @@
 }
 
 .comentario {
-  border-top: 1px solid #304737;
+  border-top: 1px solid #d5e2d8;
   padding: 18px 0;
   overflow-wrap: anywhere;
 }
@@ -256,17 +301,18 @@
 
 .autor-comentario strong {
   font-size: 14px;
+  color: #45c477;
 }
 
 .autor-comentario span {
   display: block;
-  color: #91a397;
+  color: #777;
   font-size: 12px;
   margin-top: 5px;
 }
 
 .comentario p {
-  color: #c0ccc3;
+  color: #555;
   font-size: 14px;
   line-height: 1.6;
   margin: 12px 0 5px;
@@ -274,16 +320,39 @@
 }
 
 .comentario small {
-  color: #45c477;
+  color: #176b3e;
   font-size: 11px;
   font-style: italic;
 }
 
 .sin-comentarios {
-  color: #91a397;
+  color: #777;
   text-align: center;
   padding: 22px 10px;
   font-size: 14px;
+}
+
+/* ACCIONES DE EDICIÓN */
+
+.acciones-edicion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.acciones-edicion button:last-child {
+  background: #777;
+}
+
+.acciones-edicion button:last-child:hover {
+  background: #555;
+}
+
+.btn-editar-comentario {
+  margin-top: 8px;
+  padding: 7px 12px !important;
+  font-size: 12px;
 }
 
 /* RESPONSIVE */

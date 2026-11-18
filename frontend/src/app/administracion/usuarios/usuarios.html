@@ -1,48 +1,45 @@
 <div class="admin-container">
 
-  <h1>Administración de usuarios</h1>
-  <p>Gestioná las cuentas registradas en LiveFutbol.</p>
+  <div class="admin-panel">
 
-  @if (cargando) {
-    <div>Cargando usuarios...</div>
-  }
+    <h1>Administración de usuarios</h1>
 
-  @if (error) {
-    <div class="error">
-      {{ error }}
-    </div>
-  }
+    <p>Gestioná las cuentas registradas en LiveFutbol.</p>
 
-  @if (!cargando) {
-    <div class="usuarios-lista">
+    <p>Estado de carga: {{ cargando }}</p>
+    <p>Usuarios recibidos: {{ usuarios.length }}</p>
 
-      @for (usuario of usuarios; track usuario._id) {
-        <div class="usuario-card">
+    @if (cargando) {
+      <h2>Cargando usuarios...</h2>
+    }
 
-          <div>
+    @if (!cargando) {
+      <div class="usuarios-lista">
+
+        @for (usuario of usuarios; track usuario._id) {
+          <div class="usuario-card">
             <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
             <p>@{{ usuario.usuario }}</p>
             <p>{{ usuario.correo }}</p>
-            <span>{{ usuario.perfil }}</span>
-            <span>{{ usuario.activo === false ? 'Desactivado' : 'Activo' }}</span>
+            @if (usuario.activo !== false) {
+            <button
+                class="btn-desactivar"
+                (click)="cambiarEstado(usuario)">
+                Desactivar
+            </button>
+            } @else {
+            <button
+                class="btn-activar"
+                (click)="cambiarEstado(usuario)">
+                Activar
+            </button>
+            }
           </div>
+        }
 
-          @if (usuario.activo !== false) {
-            <button (click)="cambiarEstado(usuario)">
-              Desactivar
-            </button>
-          } @else {
-            <button (click)="cambiarEstado(usuario)">
-              Activar
-            </button>
-          }
+      </div>
+    }
 
-        </div>
-      } @empty {
-        <p>No hay usuarios registrados.</p>
-      }
-
-    </div>
-  }
+  </div>
 
 </div>

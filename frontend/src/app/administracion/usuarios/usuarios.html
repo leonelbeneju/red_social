@@ -3,38 +3,59 @@
   <div class="admin-panel">
 
     <h1>Administración de usuarios</h1>
-
     <p>Gestioná las cuentas registradas en LiveFutbol.</p>
 
-    <p>Estado de carga: {{ cargando }}</p>
-    <p>Usuarios recibidos: {{ usuarios.length }}</p>
-
     @if (cargando) {
-      <h2>Cargando usuarios...</h2>
+      <p>Cargando usuarios...</p>
     }
 
-    @if (!cargando) {
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    @if (!cargando && !error) {
+
+      <p class="cantidad-usuarios">
+        Usuarios registrados: {{ usuarios.length }}
+      </p>
+
       <div class="usuarios-lista">
 
         @for (usuario of usuarios; track usuario._id) {
+
           <div class="usuario-card">
-            <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
-            <p>@{{ usuario.usuario }}</p>
-            <p>{{ usuario.correo }}</p>
+
+            <div class="datos-usuario">
+              <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+
+              <p>@{{ usuario.usuario }}</p>
+              <p>{{ usuario.correo }}</p>
+
+              <span class="rol">{{ usuario.perfil }}</span>
+
+              <span class="estado">
+                {{ usuario.activo === false ? 'Desactivado' : 'Activo' }}
+              </span>
+            </div>
+
             @if (usuario.activo !== false) {
-            <button
+              <button
                 class="btn-desactivar"
                 (click)="cambiarEstado(usuario)">
                 Desactivar
-            </button>
+              </button>
             } @else {
-            <button
+              <button
                 class="btn-activar"
                 (click)="cambiarEstado(usuario)">
                 Activar
-            </button>
+              </button>
             }
+
           </div>
+
+        } @empty {
+          <p>No hay usuarios registrados.</p>
         }
 
       </div>

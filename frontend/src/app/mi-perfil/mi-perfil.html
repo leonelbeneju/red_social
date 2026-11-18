@@ -28,27 +28,32 @@
       <section class="perfil-card">
 
         <div class="portada">
-          @if (perfil.imagen) {
-            <img class="avatar" [src]="perfil.imagen" alt="Foto de perfil">
+          @if (perfil.usuario?.imagen) {
+            <img class="avatar" [src]="perfil.usuario.imagen" alt="Foto de perfil">
           } @else {
             <div class="avatar">
-              {{ perfil.nombre?.charAt(0) || 'U' }}
+              {{ perfil.usuario?.nombre?.charAt(0) || 'U' }}
             </div>
           }
         </div>
 
         <div class="datos">
 
-          <h2>{{ perfil.nombre }} {{ perfil.apellido }}</h2>
+          <h2>
+            {{ perfil.usuario?.nombre }}
+            {{ perfil.usuario?.apellido }}
+          </h2>
 
-          <p class="username">@{{ perfil.usuario }}</p>
+          <p class="username">@{{ perfil.usuario?.usuario }}</p>
 
-          <span class="rol">{{ perfil.perfil || 'Usuario' }}</span>
+          <span class="rol">
+            {{ perfil.usuario?.perfil || 'Usuario' }}
+          </span>
 
           <div class="descripcion">
             <h3>Sobre mí</h3>
             <p>
-              {{ perfil.descripcion || 'Todavía no agregaste una descripción. ¡Contanos algo sobre vos!' }}
+              {{ perfil.usuario?.descripcion || 'Todavía no agregaste una descripción.' }}
             </p>
           </div>
 
@@ -56,13 +61,13 @@
 
             <div>
               <strong>Correo electrónico</strong>
-              <span>{{ perfil.correo }}</span>
+              <span>{{ perfil.usuario?.correo }}</span>
             </div>
 
             <div>
               <strong>Fecha de nacimiento</strong>
               <span>
-                {{ perfil.fechaNacimiento ? (perfil.fechaNacimiento | date:'dd/MM/yyyy') : 'No disponible' }}
+                {{ perfil.usuario?.fechaNacimiento ? (perfil.usuario.fechaNacimiento | date:'dd/MM/yyyy') : 'No disponible' }}
               </span>
             </div>
 

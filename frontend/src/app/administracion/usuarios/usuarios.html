@@ -3,40 +3,46 @@
   <h1>Administración de usuarios</h1>
   <p>Gestioná las cuentas registradas en LiveFutbol.</p>
 
-  <div *ngIf="cargando">
-    Cargando usuarios...
-  </div>
+  @if (cargando) {
+    <div>Cargando usuarios...</div>
+  }
 
-  <div *ngIf="error" class="error">
-    {{ error }}
-  </div>
+  @if (error) {
+    <div class="error">
+      {{ error }}
+    </div>
+  }
 
-  <div class="usuarios-lista" *ngIf="!cargando">
+  @if (!cargando) {
+    <div class="usuarios-lista">
 
-    <div class="usuario-card" *ngFor="let usuario of usuarios">
+      @for (usuario of usuarios; track usuario._id) {
+        <div class="usuario-card">
 
-      <div>
-        <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
-        <p>@{{ usuario.usuario }}</p>
-        <p>{{ usuario.correo }}</p>
-        <span>{{ usuario.perfil }}</span>
-        <span>{{ usuario.activo === false ? 'Desactivado' : 'Activo' }}</span>
-      </div>
+          <div>
+            <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+            <p>@{{ usuario.usuario }}</p>
+            <p>{{ usuario.correo }}</p>
+            <span>{{ usuario.perfil }}</span>
+            <span>{{ usuario.activo === false ? 'Desactivado' : 'Activo' }}</span>
+          </div>
 
-      <button
-        *ngIf="usuario.activo !== false"
-        (click)="cambiarEstado(usuario)">
-        Desactivar
-      </button>
+          @if (usuario.activo !== false) {
+            <button (click)="cambiarEstado(usuario)">
+              Desactivar
+            </button>
+          } @else {
+            <button (click)="cambiarEstado(usuario)">
+              Activar
+            </button>
+          }
 
-      <button
-        *ngIf="usuario.activo === false"
-        (click)="cambiarEstado(usuario)">
-        Activar
-      </button>
+        </div>
+      } @empty {
+        <p>No hay usuarios registrados.</p>
+      }
 
     </div>
-
-  </div>
+  }
 
 </div>

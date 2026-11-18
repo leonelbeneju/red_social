@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicacionesService } from '../core/services/publicaciones.service';
 import { AuthService } from '../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -18,6 +19,7 @@ export class Publicaciones implements OnInit {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private detector = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
 
   publicaciones: any[] = [];
@@ -177,10 +179,8 @@ export class Publicaciones implements OnInit {
   }
 
   probarNavegacion(id: string): void {
-    console.log('ID de publicación:', id);
-    console.log('Navegando al detalle...');
-
-    window.location.href = '/publicaciones/' + id;
+    this.router.navigate(['/publicaciones', id]);
   }
+  
 }
 

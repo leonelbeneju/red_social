@@ -54,4 +54,18 @@ export class PublicacionesService {
       comentario
     );
   }
+
+  // Editar un comentario
+  editarComentario(publicacionId: string, comentarioId: string, datos: any) {
+    return this.http.put<any>(
+      `${this.apiUrl}/${publicacionId}/comentarios/${comentarioId}`,
+      datos
+    );
+  }
+
+  obtenerComentarios(id: string, offset: number = 0, limit: number = 5) {
+    return this.http.get<any>(
+      `${this.apiUrl}/${id}/comentarios?offset=${offset}&limit=${limit}`
+    );
+  }
 }

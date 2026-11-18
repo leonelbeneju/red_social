@@ -33,6 +33,7 @@ export class Login {
   });
 
   mensajeError = '';
+  cargando = false;
 
   constructor(
     private authService: AuthService,
@@ -41,22 +42,46 @@ export class Login {
 
   ingresar() {
 
-    if (this.formLogin.invalid) {
+    if (this.formLogin.invalid || this.cargando) {
       this.formLogin.markAllAsTouched();
       return;
     }
+
+    this.mensajeError = '';
 
     const datos = {
       usuario: this.formLogin.value.usuario!,
       clave: this.formLogin.value.clave!
     };
 
+    this.cargando = true;
+
     this.authService.login(datos).subscribe({
       next: (respuesta) => {
+
         this.authService.guardarToken(respuesta.access_token);
-        this.sesionService.iniciarContador();
-        this.router.navigate(['/publicaciones']);
+
+        // Comienza la validación del token
+        this.cargando = true;
+
+        this.authService.autorizarToken().subscribe({
+          next: () => {
+            this.sesionService.iniciarContador();
+            this.router.navigate(['/publicaciones']);
+          },
+          error: () => {
+            this.cargando = false;
+            this.authService.cerrarSesion();
+            this.sesionService.detenerContador();
+
+            this.cargando = false;
+            this.mensajeError = 'No se pudo validar la sesión. Intentá nuevamente.';
+          }
+        });
+
       },
+
+      
       error: (error) => {
         this.mensajeError =
           error.error?.message || 'Usuario o contraseña incorrectos';

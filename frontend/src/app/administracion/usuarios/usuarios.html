@@ -1,0 +1,42 @@
+<div class="admin-container">
+
+  <h1>Administración de usuarios</h1>
+  <p>Gestioná las cuentas registradas en LiveFutbol.</p>
+
+  <div *ngIf="cargando">
+    Cargando usuarios...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="usuarios-lista" *ngIf="!cargando">
+
+    <div class="usuario-card" *ngFor="let usuario of usuarios">
+
+      <div>
+        <h3>{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+        <p>@{{ usuario.usuario }}</p>
+        <p>{{ usuario.correo }}</p>
+        <span>{{ usuario.perfil }}</span>
+        <span>{{ usuario.activo === false ? 'Desactivado' : 'Activo' }}</span>
+      </div>
+
+      <button
+        *ngIf="usuario.activo !== false"
+        (click)="cambiarEstado(usuario)">
+        Desactivar
+      </button>
+
+      <button
+        *ngIf="usuario.activo === false"
+        (click)="cambiarEstado(usuario)">
+        Activar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

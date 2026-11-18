@@ -141,6 +141,53 @@
   text-decoration: underline;
 }
 
+.pantalla-validacion {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #101b16, #183d29);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+
+.pantalla-validacion img {
+  width: 180px;
+  object-fit: contain;
+}
+
+.pantalla-validacion h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.pantalla-validacion p {
+  color: #c5d8ca;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #45c477;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (max-width: 480px) {
   .login-card {
     padding: 30px 23px;

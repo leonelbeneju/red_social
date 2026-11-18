@@ -18,7 +18,10 @@
           {{ renovando ? 'Renovando sesión...' : 'Extender sesión' }}
         </button>
 
-        <button class="btn-cerrar" (click)="cerrar.emit()">
+        <button class="btn-cerrar" 
+        [disabled]="renovando";
+        (click)="cerrar.emit()"
+        >
           Cerrar sesión
         </button>
       </div>

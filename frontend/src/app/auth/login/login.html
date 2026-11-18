@@ -1,4 +1,14 @@
 <div class="login-page">
+
+  @if (cargando) {
+    <div class="pantalla-validacion">
+      <img src="/livefutbol.png" alt="LiveFutbol">
+      <div class="spinner"></div>
+      <h2>Verificando tu sesión...</h2>
+      <p>Estamos preparando tu ingreso a LiveFutbol.</p>
+    </div>
+  }
+
   <div class="login-card">
 
     <div class="img">
@@ -12,8 +22,10 @@
 
     <div class="login">
       <h2><i>Bienvenido</i></h2>
-      <p>Para que cada hincha del futbol siga a su equipo mas fácil<br>
-        <small class="alenta">sumate a esta experiencia ↓ ↓ ↓</small></p>
+      <p>
+        Para que cada hincha del futbol siga a su equipo mas fácil<br>
+        <small class="alenta">sumate a esta experiencia ↓ ↓ ↓</small>
+      </p>
     </div>
 
     <form [formGroup]="formLogin" (ngSubmit)="ingresar()">
@@ -59,8 +71,8 @@
         }
       </div>
 
-      <button type="submit" class="btn-login">
-        INGRESAR A LIVEFUTBOL
+      <button type="submit" class="btn-login" [disabled]="cargando">
+        {{ cargando ? 'VERIFICANDO...' : 'INGRESAR A LIVEFUTBOL' }}
       </button>
 
     </form>

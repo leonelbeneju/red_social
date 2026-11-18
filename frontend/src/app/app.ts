@@ -22,6 +22,7 @@ export class App implements OnInit, OnDestroy {
   private detector = inject(ChangeDetectorRef);
 
   mostrarModal = false;
+  
   private suscripcion?: Subscription;
 
   ngOnInit(): void {
@@ -53,6 +54,7 @@ export class App implements OnInit, OnDestroy {
 
         this.mostrarModal = false;
         this.renovando = false;
+        this.detector.detectChanges();
       },
       error: () => {
         this.renovando = false;

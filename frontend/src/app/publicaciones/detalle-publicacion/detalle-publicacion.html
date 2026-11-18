@@ -64,7 +64,7 @@
 
       <section class="seccion-comentarios">
 
-        <h2>Comentarios ({{ comentarios.length }})</h2>
+        <h2>Comentarios ({{ totalComentarios }})</h2>
 
         <form
           [formGroup]="formularioComentario"
@@ -93,6 +93,18 @@
             <p class="mensaje-exito">{{ mensajeExito }}</p>
           }
 
+          @if (comentarios.length < totalComentarios) {
+            <button
+                type="button"
+                class="btn-cargar-mas"
+                (click)="cargarMasComentarios()"
+                [disabled]="cargandoComentarios">
+
+                {{ cargandoComentarios ? 'Cargando...' : 'Cargar más comentarios' }}
+
+            </button>
+          }
+
           <button
             type="submit"
             [disabled]="enviandoComentario">
@@ -103,46 +115,98 @@
 
         </form>
 
+        
         <div class="lista-comentarios">
 
-          @for (comentario of comentarios; track comentario._id) {
+        @for (comentario of comentarios; track comentario._id) {
 
             <article class="comentario">
 
-              <div class="autor-comentario">
+            <div class="autor-comentario">
 
                 <div class="avatar">
-                  {{ comentario.autor?.nombre?.charAt(0) || 'U' }}
+                {{ comentario.autor?.nombre?.charAt(0) || 'U' }}
                 </div>
 
                 <div>
-                  <strong>
+                <strong>
                     {{ comentario.autor?.nombre || 'Usuario' }}
                     {{ comentario.autor?.apellido || '' }}
-                  </strong>
+                </strong>
 
-                  <span>
+                <span>
                     {{ comentario.createdAt | date:'dd/MM/yyyy HH:mm' }}
-                  </span>
+                </span>
                 </div>
 
-              </div>
+            </div>
 
-              <p>{{ comentario.mensaje }}</p>
+            @if (comentarioEditandoId === comentario._id) {
 
-              @if (comentario.modificado) {
+                <textarea
+                [(ngModel)]="mensajeEdicion"
+                maxlength="1000"
+                placeholder="Editá tu comentario...">
+                </textarea>
+
+                <div class="acciones-edicion">
+
+                <button
+                    type="button"
+                    (click)="guardarEdicion(comentario._id)"
+                    [disabled]="guardandoEdicion">
+
+                    {{ guardandoEdicion ? 'Guardando...' : 'Guardar cambios' }}
+
+                </button>
+
+                <button
+                    type="button"
+                    (click)="cancelarEdicion()"
+                    [disabled]="guardandoEdicion">
+
+                    Cancelar
+
+                </button>
+
+                </div>
+
+            } @else {
+
+                <p>{{ comentario.mensaje }}</p>
+
+                @if (comentario.modificado) {
                 <small>(editado)</small>
-              }
+                }
+
+                @if (
+                comentario.autor?._id === usuarioId ||
+                comentario.autor === usuarioId
+                ) {
+                <button
+                    type="button"
+                    class="btn-editar-comentario"
+                    (click)="iniciarEdicion(comentario)">
+
+                    ✏️ Editar
+
+                </button>
+                }
+
+            }
 
             </article>
 
-          } @empty {
+        } @empty {
+
             <p class="sin-comentarios">
-              Todavía no hay comentarios. ¡Sé el primero!
+            Todavía no hay comentarios. ¡Sé el primero!
             </p>
-          }
+
+        }
 
         </div>
+
 
       </section>
 

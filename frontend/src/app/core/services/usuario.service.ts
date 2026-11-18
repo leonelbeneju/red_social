@@ -15,4 +15,20 @@ export class UsuariosService {
   obtenerMiPerfil(): Observable<any> {
     return this.http.get(`${this.apiUrl}/mi-perfil`);
   }
+
+  obtenerUsuarios(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
+
+  crearUsuario(datos: any): Observable<any> {
+    return this.http.post(this.apiUrl, datos);
+  }
+
+  desactivarUsuario(id: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/desactivar`, {});
+  }
+
+  activarUsuario(id: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/activar`, {});
+  }
 }

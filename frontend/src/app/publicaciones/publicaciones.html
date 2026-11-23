@@ -136,6 +136,7 @@
             >
           }
 
+          
           <div class="acciones-publicacion">
 
             <button
@@ -149,12 +150,28 @@
 
             </button>
 
-            <button type="button"
-            (click)="probarNavegacion(publicacion._id)">
+            <button
+              type="button"
+              (click)="probarNavegacion(publicacion._id)">
               💬 Comentar
             </button>
 
+            @if (esAdmin) {
+              <button
+                type="button"
+                class="btn-eliminar-publicacion"
+                [disabled]="eliminando.includes(publicacion._id)"
+                (click)="eliminarPublicacion(publicacion)">
+
+                {{ eliminando.includes(publicacion._id)
+                  ? 'Eliminando...'
+                  : 'Eliminar publicación' }}
+
+              </button>
+            }
+
           </div>
+
 
         </article>
       }

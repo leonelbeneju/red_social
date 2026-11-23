@@ -1,0 +1,95 @@
+<div class="pagina-estadisticas">
+
+  <header class="encabezado">
+    <h1>Panel de estadísticas</h1>
+    <p>Analizá la actividad de LiveFutbol</p>
+  </header>
+
+  <section class="filtros">
+    <div class="campo">
+      <label for="desde">Desde</label>
+      <input
+        type="date"
+        id="desde"
+        [(ngModel)]="desde"
+      >
+    </div>
+
+    <div class="campo">
+      <label for="hasta">Hasta</label>
+      <input
+        type="date"
+        id="hasta"
+        [(ngModel)]="hasta"
+      >
+    </div>
+
+    <button
+      class="btn-consultar"
+      (click)="consultarEstadisticas()"
+      [disabled]="cargando"
+    >
+      {{ cargando ? 'Consultando...' : 'Consultar estadísticas' }}
+    </button>
+  </section>
+
+  @if (mensajeError) {
+    <div class="mensaje-error">
+      {{ mensajeError }}
+    </div>
+  }
+
+
+  <section class="estadistica">
+    <h2>Publicaciones por usuario</h2>
+
+    @if (publicacionesPorUsuario.length > 0) {
+      <div class="contenedor-grafico">
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [data]="publicacionesChart"
+          [options]="opcionesGrafico">
+        </canvas>
+      </div>
+    } @else {
+      <p class="sin-datos">No hay datos para mostrar.</p>
+    }
+  </section>
+
+  <section class="estadistica">
+    <h2>Comentarios por período</h2>
+
+    @if (comentariosPorPeriodo.length > 0) {
+      <div class="contenedor-grafico">
+        <canvas
+          baseChart
+          [type]="'line'"
+          [data]="comentariosPeriodoChart"
+          [options]="opcionesGrafico">
+        </canvas>
+      </div>
+    } @else {
+      <p class="sin-datos">No hay datos para mostrar.</p>
+    }
+  </section>
+
+  <section class="estadistica">
+    <h2>Comentarios por publicación</h2>
+
+    @if (comentariosPorPublicacion.length > 0) {
+      <div class="contenedor-grafico">
+        <canvas
+          baseChart
+          [type]="'doughnut'"
+          [data]="comentariosPublicacionChart"
+          [options]="opcionesGrafico">
+        </canvas>
+      </div>
+    } @else {
+      <p class="sin-datos">No hay datos para mostrar.</p>
+    }
+  </section>
+
+
+</div>

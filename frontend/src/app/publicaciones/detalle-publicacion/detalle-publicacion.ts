@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 
@@ -26,6 +26,7 @@ export class DetallePublicacion implements OnInit {
   private fb = inject(FormBuilder);
   private detector = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   publicacion: any = null;
   comentarios: any[] = [];
@@ -45,6 +46,10 @@ export class DetallePublicacion implements OnInit {
   mensajeExito = '';
   usuarioId = '';
 
+  perfil = '';
+  esAdmin = false;
+  eliminando = false;
+
   formularioComentario = this.fb.group({
     mensaje: ['', [
       Validators.required,
@@ -54,6 +59,8 @@ export class DetallePublicacion implements OnInit {
   });
 
   ngOnInit(): void {
+    this.cargarDatosUsuario();
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {
@@ -76,7 +83,6 @@ export class DetallePublicacion implements OnInit {
         this.totalComentarios = 0;
         this.cargarMasComentarios();
         this.cargando = false;
-        this.usuarioId = this.obtenerIdUsuario();
         this.detector.markForCheck();
       },
       error: (err) => {
@@ -169,16 +175,25 @@ export class DetallePublicacion implements OnInit {
     });
   }
 
-  obtenerIdUsuario(): string {
+  cargarDatosUsuario(): void {
     const token = this.authService.obtenerToken();
 
-    if (!token) return '';
+    if (!token) return;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub || '';
-    } catch {
-      return '';
+      const parteToken = token.split('.')[1];
+      const base64 = parteToken.replace(/-/g, '+').replace(/_/g, '/');
+
+      const payload = JSON.parse(
+        atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, '='))
+      );
+
+      this.usuarioId = payload.sub || '';
+      this.perfil = payload.perfil || '';
+      this.esAdmin = this.perfil === 'administrador';
+
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
     }
   }
 
@@ -193,6 +208,50 @@ export class DetallePublicacion implements OnInit {
     this.comentarioEditandoId = null;
     this.mensajeEdicion = '';
   }
+
+  eliminarPublicacion(): void {
+    if (!this.esAdmin || this.eliminando || !this.publicacion) {
+      return;
+    }
+
+    const confirmar = confirm(
+      '¿Estás seguro que queres eliminar esta publicación?'
+    );
+
+    if (!confirmar) return;
+
+    const id = this.publicacion._id;
+
+    this.eliminando = true;
+    this.error = '';
+    this.mensajeExito = '';
+
+    this.publicacionesService.eliminarPublicacion(id).subscribe({
+      next: () => {
+        this.mensajeExito = '¡La publicación se eliminó correctamente!';
+        this.eliminando = false;
+
+        this.detector.detectChanges();
+
+        this.router.navigate(['/publicaciones'], {
+          state: {
+            mensajeExito: this.mensajeExito
+          }
+        });
+      },
+
+      error: (err) => {
+        console.error('Error al eliminar publicación:', err);
+
+        this.error = err.error?.message ||
+          'No se pudo dar de baja la publicación.';
+
+        this.eliminando = false;
+
+        this.detector.detectChanges();
+      }
+    });
+}
 
   guardarEdicion(comentarioId: string): void {
     const mensaje = this.mensajeEdicion.trim();

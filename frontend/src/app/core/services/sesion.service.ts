@@ -13,7 +13,7 @@ export class SesionService {
 
   iniciarContador(): void {
     this.detenerContador();
-    this.temporizador = timer(3 * 60 * 1000).subscribe(() => {
+    this.temporizador = timer(60 * 1000).subscribe(() => {
         this.avisoSesion$.next();
     });
   }

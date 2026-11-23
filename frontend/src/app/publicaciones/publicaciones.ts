@@ -1,10 +1,9 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicacionesService } from '../core/services/publicaciones.service';
 import { AuthService } from '../core/services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -21,13 +20,15 @@ export class Publicaciones implements OnInit {
   private detector = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-
   publicaciones: any[] = [];
   cargando = false;
   publicando = false;
+  eliminando: string[] = [];
   error = '';
   mensajeExito = '';
   usuarioId = '';
+  perfil = '';
+  esAdmin = false;
   likesProcesando: string[] = [];
   mostrarFormulario = false;
 
@@ -38,25 +39,32 @@ export class Publicaciones implements OnInit {
   });
 
   ngOnInit(): void {
-    this.usuarioId = this.obtenerIdUsuario();
+    this.obtenerDatosUsuario();
+
+    this.mensajeExito = history.state?.mensajeExito || '';
+
     this.cargarPublicaciones();
   }
 
-  private obtenerIdUsuario(): string {
-  const token = this.authService.obtenerToken();
+  private obtenerDatosUsuario(): void {
+    const token = this.authService.obtenerToken();
 
-    if (!token) return '';
+    if (!token) return;
 
     try {
       const parteToken = token.split('.')[1];
       const base64 = parteToken.replace(/-/g, '+').replace(/_/g, '/');
+
       const payload = JSON.parse(
         atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, '='))
       );
 
-      return payload.sub || '';
-    } catch {
-      return '';
+      this.usuarioId = payload.sub || '';
+      this.perfil = payload.perfil || '';
+      this.esAdmin = this.perfil === 'administrador';
+
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
     }
   }
 
@@ -108,6 +116,52 @@ export class Publicaciones implements OnInit {
         console.error('Error al modificar Me gusta:', err);
 
         this.likesProcesando = this.likesProcesando.filter(
+          publicacionId => publicacionId !== id
+        );
+
+        this.detector.detectChanges();
+      }
+    });
+  }
+
+  eliminarPublicacion(publicacion: any): void {
+    if (!this.esAdmin || this.eliminando.includes(publicacion._id)) {
+      return;
+    }
+
+    const confirmar = confirm(
+      '¿Estás seguro de que querés dar de baja esta publicación?'
+    );
+
+    if (!confirmar) return;
+
+    const id = publicacion._id;
+
+    this.eliminando.push(id);
+    this.error = '';
+    this.mensajeExito = '';
+
+    this.publicacionesService.eliminarPublicacion(id).subscribe({
+      next: () => {
+        this.publicaciones = this.publicaciones.filter(
+          p => p._id !== id
+        );
+
+        this.mensajeExito = 'La publicación se dio de baja correctamente.';
+
+        this.eliminando = this.eliminando.filter(
+          publicacionId => publicacionId !== id
+        );
+
+        this.detector.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al eliminar publicación:', err);
+
+        this.error = err.error?.message ||
+          'No se pudo dar de baja la publicación.';
+
+        this.eliminando = this.eliminando.filter(
           publicacionId => publicacionId !== id
         );
 
@@ -181,6 +235,4 @@ export class Publicaciones implements OnInit {
   probarNavegacion(id: string): void {
     this.router.navigate(['/publicaciones', id]);
   }
-  
 }
-

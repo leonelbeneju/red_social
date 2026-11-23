@@ -1,19 +1,141 @@
 <div class="admin-container">
-
   <div class="admin-panel">
 
     <h1>Administración de usuarios</h1>
     <p>Gestioná las cuentas registradas en LiveFutbol.</p>
 
-    @if (cargando) {
-      <p>Cargando usuarios...</p>
+    <button
+      class="btn-crear"
+      type="button"
+      (click)="abrirFormulario()">
+      {{ mostrarFormulario ? 'Cancelar' : '+ Crear usuario' }}
+    </button>
+
+    @if (mensajeExito) {
+      <p class="exito">{{ mensajeExito }}</p>
     }
 
     @if (error) {
       <p class="error">{{ error }}</p>
     }
 
-    @if (!cargando && !error) {
+    @if (mostrarFormulario) {
+      <section class="formulario-container">
+
+        <h2>Crear nuevo usuario</h2>
+        <p>Completá los datos de la nueva cuenta.</p>
+
+        <form [formGroup]="formUsuario" (ngSubmit)="crearUsuario()">
+
+          <div class="campos-grid">
+
+            <div class="campo">
+              <label>Nombre</label>
+              <input type="text" formControlName="nombre">
+              @if (formUsuario.get('nombre')?.touched && formUsuario.get('nombre')?.invalid) {
+                <small>Ingresá el nombre.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Apellido</label>
+              <input type="text" formControlName="apellido">
+              @if (formUsuario.get('apellido')?.touched && formUsuario.get('apellido')?.invalid) {
+                <small>Ingresá el apellido.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Correo electrónico</label>
+              <input type="email" formControlName="correo">
+              @if (formUsuario.get('correo')?.touched && formUsuario.get('correo')?.invalid) {
+                <small>Ingresá un correo válido.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Nombre de usuario</label>
+              <input type="text" formControlName="usuario">
+              @if (formUsuario.get('usuario')?.touched && formUsuario.get('usuario')?.invalid) {
+                <small>Debe tener al menos 3 caracteres.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Contraseña</label>
+              <input type="password" formControlName="clave">
+              @if (formUsuario.get('clave')?.touched && formUsuario.get('clave')?.invalid) {
+                <small>Usá al menos 8 caracteres, una mayúscula y un número.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Repetir contraseña</label>
+              <input type="password" formControlName="repetirClave">
+              @if (formUsuario.get('repetirClave')?.touched && formUsuario.hasError('clavesNoCoinciden')) {
+                <small>Las contraseñas no coinciden.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Fecha de nacimiento</label>
+              <input type="date" formControlName="fechaNacimiento">
+              @if (formUsuario.get('fechaNacimiento')?.touched && formUsuario.get('fechaNacimiento')?.invalid) {
+                <small>Seleccioná una fecha.</small>
+              }
+            </div>
+
+            <div class="campo">
+              <label>Descripción breve</label>
+              <textarea
+                rows="3"
+                maxlength="250"
+                formControlName="descripcion">
+              </textarea>
+            </div>
+
+          </div>
+
+          <div class="campo perfiles">
+            <label>Perfil de la cuenta</label>
+
+            <label class="opcion-perfil">
+              <input
+                type="radio"
+                value="usuario"
+                formControlName="perfil">
+              Usuario
+            </label>
+
+            <label class="opcion-perfil">
+              <input
+                type="radio"
+                value="administrador"
+                formControlName="perfil">
+              Administrador
+            </label>
+          </div>
+
+          @if (formUsuario.hasError('clavesNoCoinciden') && formUsuario.get('repetirClave')?.touched) {
+            <p class="error">Las contraseñas deben coincidir.</p>
+          }
+
+          <button
+            class="btn-guardar"
+            type="submit"
+            [disabled]="creando">
+            {{ creando ? 'Creando usuario...' : 'Guardar usuario' }}
+          </button>
+
+        </form>
+      </section>
+    }
+
+    @if (cargando) {
+      <p>Cargando usuarios...</p>
+    }
+
+    @if (!cargando) {
 
       <p class="cantidad-usuarios">
         Usuarios registrados: {{ usuarios.length }}
@@ -62,5 +184,5 @@
     }
 
   </div>
-
 </div>
+

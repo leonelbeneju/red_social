@@ -4,9 +4,7 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-
-
-
+import { EstadisticasModule } from './estadisticas/estadisticas.module';
 
 @Module({
   imports: [
@@ -16,7 +14,8 @@ import { ConfigModule } from '@nestjs/config';
     MongooseModule.forRoot(process.env.CONNECTION_STRING!),
     PublicacionesModule,
     AutenticacionModule,
-    UsuariosModule
+    UsuariosModule,
+    EstadisticasModule
   ],
   controllers: [],
   providers: [],

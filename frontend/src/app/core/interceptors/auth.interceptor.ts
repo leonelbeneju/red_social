@@ -20,18 +20,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         }
       })
     : req;
-  
-  console.log('INTERCEPTOR EJECUTADO');
-  console.log('TOKEN EN INTERCEPTOR:', token ? 'EXISTE' : 'NO EXISTE');
-  console.log('URL:', req.url);
-
 
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
 
-      if (error.status === 401) {
+      // No cerrar sesión cuando las credenciales del login son incorrectas
+      const esLogin = req.url.includes('/login');
+
+      if (error.status === 401 && !esLogin) {
         authService.cerrarSesion();
         sesionService.detenerContador();
+
         router.navigate(['/login']);
       }
 

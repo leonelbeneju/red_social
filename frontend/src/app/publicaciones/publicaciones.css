@@ -336,6 +336,25 @@ button {
   color: #10532f;
 }
 
+.acciones-publicacion .btn-eliminar-publicacion {
+  background: #8b2525;
+  color: white;
+  border: none;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 7px;
+}
+
+.acciones-publicacion .btn-eliminar-publicacion:hover {
+  background: #b83232;
+}
+
+.acciones-publicacion .btn-eliminar-publicacion:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 /* RESPONSIVE */
 
 @media (max-width: 600px) {

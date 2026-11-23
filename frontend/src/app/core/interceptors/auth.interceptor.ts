@@ -25,14 +25,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
 
       // No cerrar sesión cuando las credenciales del login son incorrectas
-      const esLogin = req.url.includes('/login');
+    const esLogin = req.url.includes('/login');
 
-      if (error.status === 401 && !esLogin) {
-        authService.cerrarSesion();
-        sesionService.detenerContador();
+    if (error.status === 401 && !esLogin) {
+      authService.cerrarSesion();
+      sesionService.detenerContador();
 
-        router.navigate(['/login']);
-      }
+      router.navigate(['/login']);
+    }
 
       return throwError(() => error);
     })

@@ -132,7 +132,13 @@ export class AutenticacionService {
 
     try {
       payload = await this.jwtService.verifyAsync(token);
-    } catch {
+      console.log('TOKEN RECIBIDO Y VÁLIDO:', {
+        iat: payload.iat,
+        exp: payload.exp,
+        ahora: Math.floor(Date.now() / 1000),
+      });
+    } catch (error) {
+      console.log('ERROR AL VERIFICAR TOKEN:', error);
       throw new UnauthorizedException('Token inválido o vencido');
     }
 
@@ -144,7 +150,6 @@ export class AutenticacionService {
       );
     }
 
-    // Sacamos los datos del token anterior.
     const { iat, exp, ...datosUsuario } = payload;
 
     const nuevoToken = await this.jwtService.signAsync(datosUsuario);

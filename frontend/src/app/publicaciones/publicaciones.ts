@@ -147,7 +147,7 @@ export class Publicaciones implements OnInit {
           p => p._id !== id
         );
 
-        this.mensajeExito = 'La publicación se dio de baja correctamente.';
+        this.mensajeExito = 'La publicación se elimino correctamente.';
 
         this.eliminando = this.eliminando.filter(
           publicacionId => publicacionId !== id

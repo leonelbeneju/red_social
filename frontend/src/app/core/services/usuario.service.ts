@@ -20,6 +20,13 @@ export class UsuariosService {
     return this.http.get(this.apiUrl);
   }
 
+  buscarUsuarios(texto: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/buscar`,
+      { params: { texto } }
+    );
+  }
+
   crearUsuario(datos: any): Observable<any> {
     return this.http.post(this.apiUrl, datos);
   }

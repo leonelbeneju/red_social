@@ -123,6 +123,35 @@ export class UsuariosService {
       .lean();
   }
 
+
+  // BUSCAR USUARIOS
+  async buscarUsuarios(texto: string, usuarioId: string) {
+    const busqueda = texto.trim();
+
+    if (!busqueda) {
+      return [];
+    }
+
+    // Escapar caracteres especiales para la expresión regular
+    const textoSeguro = busqueda.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(textoSeguro, 'i');
+
+    return this.usuarioModel
+      .find({
+        _id: { $ne: new Types.ObjectId(usuarioId) },
+        activo: true,
+        $or: [
+          { nombre: regex },
+          { apellido: regex },
+          { usuario: regex },
+        ],
+      })
+      .select('nombre apellido usuario imagen')
+      .limit(10)
+      .lean();
+  }
+
+
   // CREAR USUARIO DESDE EL PANEL ADMINISTRATIVO
   async crearUsuario(datos: RegistroDto & { perfil?: string; imagen?: string }) {
     const correo = datos.correo.toLowerCase();

@@ -25,6 +25,65 @@
       <p class="descripcion">Compartí tu pasión por el fútbol.</p>
     </section>
 
+
+    <section class="buscador-usuarios">
+
+      <h3>Encontrá a otros usuarios</h3>
+
+      <div class="campo-busqueda">
+        <input
+          type="text"
+          [(ngModel)]="textoBusqueda"
+          (keyup.enter)="buscarUsuarios()"
+          placeholder="Buscar por nombre, apellido o usuario..."
+        >
+
+        <button
+          type="button"
+          (click)="buscarUsuarios()"
+          [disabled]="buscandoUsuarios || textoBusqueda.trim().length < 2">
+          {{ buscandoUsuarios ? 'Buscando...' : 'Buscar' }}
+        </button>
+      </div>
+
+      @if (buscandoUsuarios) {
+        <p>Buscando usuarios...</p>
+      }
+
+      @if (busquedaRealizada && !buscandoUsuarios) {
+        @if ((usuariosEncontrados | buscadorUsuarios:textoBusqueda).length > 0) {
+
+          <div class="resultados-usuarios">
+
+            @for (usuario of usuariosEncontrados | buscadorUsuarios:textoBusqueda; track usuario._id) {
+              <article class="resultado-usuario">
+
+                @if (usuario.imagen) {
+                  <img [src]="usuario.imagen" alt="Foto de perfil">
+                } @else {
+                  <div class="avatar">
+                    {{ usuario.nombre?.charAt(0) || 'U' }}
+                  </div>
+                }
+
+                <div>
+                  <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+                  <span>@{{ usuario.usuario }}</span>
+                </div>
+
+              </article>
+            }
+
+          </div>
+
+        } @else {
+          <p>No encontramos usuarios con ese nombre.</p>
+        }
+      }
+
+    </section>
+
+
     <button
       type="button"
       class="btn-nueva-publicacion"

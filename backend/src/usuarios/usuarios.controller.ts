@@ -7,6 +7,7 @@ import {
   UseGuards,
   Post,
   Param,
+  Query
 } from '@nestjs/common';
 
 import { UsuariosService } from './usuarios.service';
@@ -24,6 +25,18 @@ export class UsuariosController {
   obtenerMiPerfil(@Req() req: any) {
     return this.usuariosService.obtenerMiPerfil(req.user.sub);
   }
+
+
+  // BUSCAR USUARIOS
+  @Get('buscar')
+  @UseGuards(AuthGuard)
+  buscarUsuarios(@Query('texto') texto: string, @Req() req: any) {
+    return this.usuariosService.buscarUsuarios(
+      texto || '',
+      req.user.sub,
+    );
+  }
+
 
   @Patch('mi-perfil')
   @UseGuards(AuthGuard)

@@ -1,13 +1,17 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { PublicacionesService } from '../core/services/publicaciones.service';
 import { AuthService } from '../core/services/auth.service';
 
+import { BuscadorUsuariosPipe } from '../shared/pipes/buscador-usuarios-pipe';
+import { UsuariosService } from '../core/services/usuario.service';
+
+
 @Component({
   standalone: true,
-  imports: [RouterLink, DatePipe, ReactiveFormsModule],
+  imports: [RouterLink, DatePipe, ReactiveFormsModule, FormsModule, BuscadorUsuariosPipe ],
   selector: 'app-publicaciones',
   styleUrl: './publicaciones.css',
   templateUrl: './publicaciones.html',
@@ -19,6 +23,7 @@ export class Publicaciones implements OnInit {
   private fb = inject(FormBuilder);
   private detector = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private usuariosService = inject(UsuariosService);
 
   publicaciones: any[] = [];
   cargando = false;
@@ -31,6 +36,10 @@ export class Publicaciones implements OnInit {
   esAdmin = false;
   likesProcesando: string[] = [];
   mostrarFormulario = false;
+  textoBusqueda = '';
+  usuariosEncontrados: any[] = [];
+  buscandoUsuarios = false;
+  busquedaRealizada = false;
 
   formularioPublicacion = this.fb.group({
     titulo: ['', [Validators.required, Validators.maxLength(100)]],
@@ -228,6 +237,35 @@ export class Publicaciones implements OnInit {
         console.error('Error al crear publicación:', err);
         this.error = err.error?.message || 'No se pudo crear la publicación.';
         this.publicando = false;
+      }
+    });
+  }
+
+  buscarUsuarios(): void {
+    const texto = this.textoBusqueda.trim();
+
+    if (texto.length < 2) {
+      this.usuariosEncontrados = [];
+      this.busquedaRealizada = false;
+      return;
+    }
+
+    this.buscandoUsuarios = true;
+    this.busquedaRealizada = false;
+
+    this.usuariosService.buscarUsuarios(texto).subscribe({
+      next: (respuesta) => {
+        this.usuariosEncontrados = respuesta;
+        this.buscandoUsuarios = false;
+        this.busquedaRealizada = true;
+        this.detector.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al buscar usuarios:', err);
+        this.usuariosEncontrados = [];
+        this.buscandoUsuarios = false;
+        this.busquedaRealizada = true;
+        this.detector.detectChanges();
       }
     });
   }
